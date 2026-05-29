@@ -1,0 +1,26 @@
+name: main-push
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  show-commits:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Print SHAs
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+          EVENT_AFTER: ${{ github.event.after }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          echo "before: ${EVENT_BEFORE}"
+          echo "after:  ${EVENT_AFTER}"
+          echo "sha:    ${GITHUB_SHA}"
